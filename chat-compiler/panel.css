@@ -1,0 +1,128 @@
+/* Modeled on Cursor's dark theme: flat neutral grays, quiet borders, white primary. */
+:root {
+  --editor: #181818;
+  --chrome: #141414;
+  --elev: #1f1f1f;
+  --hover: #262626;
+  --line: #262626;
+  --line2: #333333;
+  --text: #e4e4e4;
+  --muted: #8a8a8a;
+  --dim: #5c5c5c;
+  --green: #6fc59a;
+  --red: #f0756e;
+  --blue: #87c3ff;
+  --mono: "SF Mono", Menlo, "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--editor); color: var(--text); font: 12px/1.4 var(--sans);
+  display: flex; flex-direction: column; overflow: hidden; -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+svg { width: 14px; height: 14px; fill: currentColor; display: block; }
+.hidden { display: none !important; }
+
+/* ---------- file tabs ---------- */
+.tabbar { display: flex; align-items: stretch; height: 34px; flex: none; background: var(--chrome); border-bottom: 1px solid var(--line); }
+.tabs-files { display: flex; }
+.lang {
+  display: flex; align-items: center; gap: 6px; border: 0; background: none; color: var(--muted);
+  padding: 0 14px; font-size: 12px; border-right: 1px solid var(--line); position: relative;
+}
+.lang:hover { color: var(--text); }
+.lang.active { background: var(--editor); color: var(--text); }
+.lang.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--editor); }
+.ficon { font: 700 8.5px/1 var(--sans); border-radius: 2px; padding: 2px 2px; letter-spacing: -.02em; }
+.ficon.py { color: #6fa8dc; }
+.ficon.js { color: #e5c07b; }
+.actions { margin-left: auto; display: flex; align-items: center; gap: 2px; padding: 0 6px; }
+.act { border: 0; background: none; color: var(--muted); width: 26px; height: 24px; border-radius: 5px; display: grid; place-items: center; }
+.act:hover { background: var(--hover); color: var(--text); }
+.act.run { color: var(--green); }
+.act.stop { color: var(--red); }
+
+.settings {
+  display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 8px 12px; border-bottom: 1px solid var(--line);
+  background: var(--chrome); color: var(--muted);
+}
+.settings label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+input[type="checkbox"] { accent-color: #d4d4d4; margin: 0; }
+
+/* ---------- editor ---------- */
+#editor { flex: 3 1 0; min-height: 80px; overflow: hidden; }
+#editor .cm-editor { height: 100%; }
+
+/* ---------- bottom panel ---------- */
+.panel { flex: 2 1 0; min-height: 70px; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.panel-tabs { display: flex; align-items: center; gap: 14px; padding: 0 12px; height: 30px; flex: none; }
+.tab {
+  border: 0; background: none; color: var(--muted); padding: 0; height: 100%;
+  font-size: 11px; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid transparent;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--text); border-bottom-color: var(--text); }
+.badge { background: var(--hover); color: var(--text); border-radius: 8px; padding: 0 5px; font-size: 10px; margin-left: 3px; }
+.hint { margin-left: auto; color: var(--dim); font-size: 11px; }
+.io { flex: 1; min-height: 0; display: flex; }
+.pane {
+  flex: 1; margin: 0; padding: 4px 12px 10px; overflow: auto; background: var(--editor);
+  font: 12px/1.55 var(--mono); color: var(--text); white-space: pre-wrap; word-break: break-word;
+}
+#out:empty::before { content: "Run your code to see output here."; color: var(--dim); font-family: var(--sans); }
+#out .err { color: var(--red); }
+#out .meta { color: var(--muted); font-family: var(--sans); font-size: 11px; }
+textarea.pane { border: 0; resize: none; outline: none; }
+textarea.pane::placeholder { color: var(--dim); font-family: var(--sans); }
+
+/* ---------- composer (Cursor chat input) ---------- */
+.composer-wrap { padding: 8px; background: var(--chrome); border-top: 1px solid var(--line); flex: none; }
+.composer {
+  background: var(--elev); border: 1px solid var(--line2); border-radius: 10px; padding: 8px 8px 6px 10px;
+  transition: border-color .15s;
+}
+.composer:focus-within { border-color: #4a4a4a; }
+#note { width: 100%; background: none; border: 0; outline: none; color: var(--text); font: 12.5px var(--sans); padding: 0 0 6px; }
+#note::placeholder { color: var(--dim); }
+.composer-row { display: flex; align-items: center; gap: 6px; }
+.spacer { flex: 1; }
+.pill {
+  display: flex; align-items: center; gap: 5px; background: var(--hover); color: var(--muted);
+  border-radius: 6px; padding: 3px 7px; font-size: 11px; cursor: pointer; user-select: none;
+}
+.pill:has(input:checked) { color: var(--text); }
+.pill input { width: 11px; height: 11px; }
+.send {
+  border: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--text); color: #141414;
+  display: grid; place-items: center;
+}
+.send:hover { background: #fff; }
+.send:disabled { background: var(--dim); cursor: default; }
+.send svg { width: 12px; height: 12px; }
+
+/* ---------- status bar ---------- */
+.statusbar {
+  display: flex; align-items: center; gap: 12px; height: 22px; flex: none; padding: 0 10px;
+  background: var(--chrome); border-top: 1px solid var(--line); color: var(--muted); font-size: 11px;
+}
+.status { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status.ok { color: var(--muted); }
+.status.ok::before { content: "● "; color: var(--green); font-size: 9px; }
+.status.err { color: var(--red); }
+
+.toast {
+  position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); max-width: 90%;
+  background: #2a2a2a; border: 1px solid var(--line2); color: var(--text); border-radius: 8px;
+  padding: 7px 12px; font-size: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+.toast.err { color: var(--red); }
+
+/* scrollbars like the editor */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(121,121,121,.35); border: 3px solid transparent; background-clip: content-box; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background-color: rgba(160,160,160,.5); }
+::-webkit-scrollbar-corner { background: transparent; }
+
+@media (max-width: 400px) { .hint, #cursorPos { display: none; } }

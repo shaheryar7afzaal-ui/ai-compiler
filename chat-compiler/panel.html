@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Chat Compiler</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header class="tabbar">
+    <div class="tabs-files" role="tablist" aria-label="Language">
+      <button class="lang" data-lang="python" role="tab"><span class="ficon py">py</span>main.py</button>
+      <button class="lang" data-lang="javascript" role="tab"><span class="ficon js">JS</span>main.js</button>
+    </div>
+    <div class="actions">
+      <button class="act run" id="run" title="Run (Ctrl/Cmd + Enter)"><svg viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z"/></svg></button>
+      <button class="act stop hidden" id="stop" title="Stop"><svg viewBox="0 0 16 16"><rect x="3.5" y="3.5" width="9" height="9" rx="1"/></svg></button>
+      <button class="act" id="import" title="Pull the last code block from the chat"><svg viewBox="0 0 16 16"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M3 13h10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="act" id="settings" title="Settings"><svg viewBox="0 0 16 16"><circle cx="3.5" cy="8" r="1.2"/><circle cx="8" cy="8" r="1.2"/><circle cx="12.5" cy="8" r="1.2"/></svg></button>
+    </div>
+  </header>
+
+  <div class="settings hidden" id="settingsRow">
+    <label><input type="checkbox" id="optLauncher"> Show the &lt;/&gt; button on chat sites</label>
+    <label><input type="checkbox" id="optOutput"> Include output when sending</label>
+  </div>
+
+  <main id="editor"></main>
+
+  <section class="panel">
+    <div class="panel-tabs">
+      <button class="tab active" data-tab="out">Output</button>
+      <button class="tab" data-tab="in">Input <span id="inCount" class="badge hidden"></span></button>
+      <span class="hint">⌘/Ctrl ↵ run</span>
+    </div>
+    <div class="io">
+      <pre id="out" class="pane" aria-live="polite"></pre>
+      <textarea id="in" class="pane hidden" spellcheck="false"
+        placeholder="Lines your program reads with input() (Python) or prompt() (JS), one per line."></textarea>
+    </div>
+  </section>
+
+  <footer class="composer-wrap">
+    <div class="composer">
+      <input id="note" type="text" placeholder="Add a message, then send code + output to chat" autocomplete="off">
+      <div class="composer-row">
+        <label class="pill" title="Press the chat's send button for you"><input type="checkbox" id="autoSend"><span>Auto-send</span></label>
+        <span class="spacer"></span>
+        <button class="send" id="send" title="Send to chat (Ctrl/Cmd + Shift + Enter)"><svg viewBox="0 0 16 16"><path d="M8 13V3m0 0L3.5 7.5M8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+  </footer>
+
+  <div class="statusbar">
+    <span class="status" id="status">Loading Python…</span>
+    <span class="spacer"></span>
+    <span id="cursorPos">Ln 1, Col 1</span>
+    <span id="langLabel">Python</span>
+  </div>
+  <div class="toast hidden" id="toast"></div>
+
+  <iframe id="sandbox" src="sandbox.html" hidden></iframe>
+  <script src="panel.js"></script>
+</body>
+</html>
